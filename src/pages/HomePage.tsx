@@ -164,12 +164,12 @@ const Section: React.FC<{ title: string, icon: React.ElementType, data: AppEvent
         className="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-8 [&::-webkit-scrollbar]:hidden"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {data.map(event => (
-          // 데스크탑에서는 4개(25%), 태블릿은 2개(50%), 모바일은 1개(100%)씩 꽉 차게 보이도록 설정
-          <div key={event.id} className="min-w-[85%] sm:min-w-[calc(50%-1.5rem)] lg:min-w-[calc(25%-1.125rem)] snap-start flex-shrink-0">
-            <EventCard event={event} />
-          </div>
-        ))}
+       {data.map(event => (
+         // 👇 빼기 기호 양옆에 언더바(_)를 꼭 확인해 주세요!
+        <div key={event.id} className="flex-none w-[85%] sm:w-[calc(50%_-_12px)] lg:w-[calc(25%_-_18px)] snap-start">
+      <EventCard event={event} />
+      </div>
+))}
       </div>
     </section>
   );
