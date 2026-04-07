@@ -157,9 +157,9 @@ const HomePage: React.FC = () => {
             <p className="text-lg font-bold text-gray-400">우측 상단 '관리자' 아이콘을 눌러 행사를 추가해 보세요!</p>
           </div>
         )}
-        <Section title="이번 주말, 덕력을 채울 시간 🎨" icon={Flame} data={subcultureEvents} titleBg="bg-pink-400" />
-        <Section title="오프라인에서 만나는 최애 게임 🎮" icon={Gamepad2} data={gameEvents} titleBg="bg-cyan-400" />
-        <Section title="고막을 녹일 J-POP 내한 일정 🎤" icon={Mic2} data={jpopEvents} titleBg="bg-lime-400" />
+        <Section title="서브컬쳐 행사 🎨" icon={Flame} data={subcultureEvents} titleBg="bg-pink-400" />
+        <Section title="오프라인 게임 행사🎮" icon={Gamepad2} data={gameEvents} titleBg="bg-cyan-400" />
+        <Section title="J-POP 내한 일정 🎤" icon={Mic2} data={jpopEvents} titleBg="bg-lime-400" />
       </main>
     </>
   );
