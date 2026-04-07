@@ -14,11 +14,11 @@ const AdminPage: React.FC = () => {
 
   const [eventForm, setEventForm] = useState({
     title: '', category: 'subculture' as EventCategory, location: '',
-    startDate: '', endDate: '', image: '', tagColor: 'bg-yellow-300', linkUrl: ''
+    startDate: '', endDate: '', tagColor: 'bg-yellow-300', linkUrl: ''
   });
 
   const [bannerForm, setBannerForm] = useState({
-    title: '', subtitle: '', date: '', image: '', tag: '', bgColor: 'bg-lime-300', linkUrl: ''
+    title: '', subtitle: '', date: '', tag: '', bgColor: 'bg-lime-300', linkUrl: ''
   });
 
   // Supabase 세션 확인 (로그인 유지)
@@ -52,7 +52,7 @@ const AdminPage: React.FC = () => {
     const newEvent: AppEvent = { id: Date.now().toString(), ...eventForm };
     await addEvent(newEvent);
     alert('행사가 DB에 등록되었습니다!');
-    setEventForm({ title: '', category: 'subculture', location: '', startDate: '', endDate: '', image: '', tagColor: 'bg-yellow-300', linkUrl: '' });
+    setEventForm({ title: '', category: 'subculture', location: '', startDate: '', endDate: '', tagColor: 'bg-yellow-300', linkUrl: '' });
   };
 
   const handleBannerSubmit = async (e: React.FormEvent) => {
@@ -60,7 +60,7 @@ const AdminPage: React.FC = () => {
     const newBanner: HeroBanner = { id: Date.now().toString(), ...bannerForm };
     await addBanner(newBanner);
     alert('새 배너가 DB에 등록되었습니다!');
-    setBannerForm({ title: '', subtitle: '', date: '', image: '', tag: '', bgColor: 'bg-lime-300', linkUrl: '' });
+    setBannerForm({ title: '', subtitle: '', date: '', tag: '', bgColor: 'bg-lime-300', linkUrl: '' });
   };
 
   if (!user) {
@@ -100,7 +100,6 @@ const AdminPage: React.FC = () => {
               <div className="flex flex-col gap-2"><label className="font-black text-lg">서브 타이틀</label><input type="text" required value={bannerForm.subtitle} onChange={e => setBannerForm({...bannerForm, subtitle: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
               <div className="flex flex-col gap-2"><label className="font-black text-lg">날짜 표시 (텍스트)</label><input type="text" required value={bannerForm.date} onChange={e => setBannerForm({...bannerForm, date: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
               <div className="flex flex-col gap-2"><label className="font-black text-lg">태그 문구</label><input type="text" required value={bannerForm.tag} onChange={e => setBannerForm({...bannerForm, tag: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
-              <div className="flex flex-col gap-2"><label className="font-black text-lg">이미지 URL</label><input type="url" required value={bannerForm.image} onChange={e => setBannerForm({...bannerForm, image: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
               <div className="flex flex-col gap-2"><label className="font-black text-lg">연결 링크 (URL)</label><input type="url" required value={bannerForm.linkUrl} onChange={e => setBannerForm({...bannerForm, linkUrl: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
               <div className="flex flex-col gap-2">
                 <label className="font-black text-lg">배경 색상</label>
@@ -137,7 +136,6 @@ const AdminPage: React.FC = () => {
                 </select>
               </div>
               <div className="flex flex-col gap-2"><label className="font-black text-lg">장소</label><input type="text" required value={eventForm.location} onChange={e => setEventForm({...eventForm, location: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
-              <div className="flex flex-col gap-2"><label className="font-black text-lg">이미지 URL</label><input type="url" required value={eventForm.image} onChange={e => setEventForm({...eventForm, image: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
               <div className="flex flex-col gap-2"><label className="font-black text-lg">연결 링크 (URL)</label><input type="url" required value={eventForm.linkUrl} onChange={e => setEventForm({...eventForm, linkUrl: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
               <div className="flex flex-col gap-2"><label className="font-black text-lg">시작 날짜</label><input type="date" required value={eventForm.startDate} onChange={e => setEventForm({...eventForm, startDate: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>
               <div className="flex flex-col gap-2"><label className="font-black text-lg">종료 날짜</label><input type="date" required value={eventForm.endDate} onChange={e => setEventForm({...eventForm, endDate: e.target.value})} className="border-4 border-black p-3 font-bold outline-none" /></div>

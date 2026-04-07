@@ -7,7 +7,6 @@ export interface AppEvent {
   location: string;
   startDate: string; // 'YYYY-MM-DD'
   endDate: string;   // 'YYYY-MM-DD'
-  image: string;
   tagColor: string;
   linkUrl: string;   // 행사를 눌렀을 때 이동할 링크 추가
 }
@@ -17,7 +16,6 @@ export interface HeroBanner {
   title: string;
   subtitle: string;
   date: string;
-  image: string;
   tag: string;
   bgColor: string;
   linkUrl: string;   // 배너를 눌렀을 때 이동할 링크 추가
