@@ -10,16 +10,26 @@ interface EventContextType {
   banners: HeroBanner[];
   addBanner: (banner: HeroBanner) => Promise<void>;
   deleteBanner: (id: string) => Promise<void>;
+  
+  // 👇 1. 검색어 저장소 설계도 추가
+  searchKeyword: string;
+  setSearchKeyword: (keyword: string) => void;
 }
 
 export const EventContext = createContext<EventContextType>({
   events: [], addEvent: async () => {}, deleteEvent: async () => {},
   banners: [], addBanner: async () => {}, deleteBanner: async () => {},
+  
+  // 👇 2. 타입 에러를 막기 위한 기본값 추가
+  searchKeyword: '', setSearchKeyword: () => {},
 });
 
 export const EventProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [events, setEvents] = useState<AppEvent[]>([]);
   const [banners, setBanners] = useState<HeroBanner[]>([]);
+  
+  // 👇 3. 실제로 검색어를 저장할 공간(State) 생성
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const fetchEvents = async () => {
     const { data } = await supabase.from('events').select('*');
@@ -47,7 +57,6 @@ export const EventProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   };
 
   const addBanner = async (banner: HeroBanner) => {
-    // 바로 이 부분 대문자 S를 소문자 s로 고쳤습니다!
     await supabase.from('banners').insert([banner]);
     fetchBanners();
   };
@@ -58,7 +67,12 @@ export const EventProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   };
 
   return (
-    <EventContext.Provider value={{ events, addEvent, deleteEvent, banners, addBanner, deleteBanner }}>
+    // 👇 4. 다른 파일에서 꺼내 쓸 수 있도록 value에 추가!
+    <EventContext.Provider value={{ 
+      events, addEvent, deleteEvent, 
+      banners, addBanner, deleteBanner,
+      searchKeyword, setSearchKeyword 
+    }}>
       {children}
     </EventContext.Provider>
   );

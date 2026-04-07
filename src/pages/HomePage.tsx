@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
-import { Calendar as CalendarIcon, MapPin, Gamepad2, Mic2, Flame, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar as CalendarIcon, MapPin, Gamepad2, Mic2, Flame, ArrowRight, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { EventContext } from '../context/EventContext';
 import type { AppEvent } from '../types';
 
@@ -176,7 +176,14 @@ const Section: React.FC<{ title: string, icon: React.ElementType, data: AppEvent
 };
 
 const HomePage: React.FC = () => {
-  const { events } = useContext(EventContext);
+  // 👇 1. EventContext에서 searchKeyword도 같이 꺼내옵니다.
+  const { events, searchKeyword } = useContext(EventContext);
+
+  // 👇 2. 검색어가 있을 때 필터링하는 로직 (대소문자 구분 없이 제목과 장소 검색)
+  const searchResults = events.filter(event => 
+    event.title.toLowerCase().includes(searchKeyword.toLowerCase()) || 
+    event.location.toLowerCase().includes(searchKeyword.toLowerCase())
+  );
 
   const subcultureEvents = events.filter(e => e.category === 'subculture');
   const gameEvents = events.filter(e => e.category === 'game');
@@ -184,17 +191,34 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <HeroSection />
+      {/* 검색 중일 때는 상단 배너(HeroSection)를 숨겨서 검색 결과에 집중하게 합니다. */}
+      {!searchKeyword && <HeroSection />}
+      
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 min-h-[400px] overflow-hidden">
-        {events.length === 0 && (
-          <div className="text-center py-20 border-4 border-dashed border-gray-400">
-            <p className="text-2xl font-black text-gray-500 mb-4">앗! 등록된 행사가 없어요.</p>
-            <p className="text-lg font-bold text-gray-400">우측 상단 '관리자' 아이콘을 눌러 행사를 추가해 보세요!</p>
-          </div>
+        
+        {/* 👇 3. 검색어가 입력되었을 때 vs 아닐 때 화면 나누기 */}
+        {searchKeyword ? (
+          // 🔎 [검색어 입력 시] 검색 결과만 보여주는 섹션
+          <Section 
+            title={`"${searchKeyword}" 검색 결과 (${searchResults.length}건)`} 
+            icon={Search} // 상단 돋보기 아이콘을 그대로 씁니다!
+            data={searchResults} 
+            titleBg="bg-yellow-400" 
+          />
+        ) : (
+          // 🏠 [기본 상태] 검색어가 없을 때는 원래대로 3가지 분류 보여주기
+          <>
+            {events.length === 0 && (
+              <div className="text-center py-20 border-4 border-dashed border-gray-400">
+                <p className="text-2xl font-black text-gray-500 mb-4">앗! 등록된 행사가 없어요.</p>
+                <p className="text-lg font-bold text-gray-400">우측 상단 '관리자' 아이콘을 눌러 행사를 추가해 보세요!</p>
+              </div>
+            )}
+            <Section title="서브컬쳐 행사 🎨" icon={Flame} data={subcultureEvents} titleBg="bg-pink-400" />
+            <Section title="오프라인 게임 행사 🎮" icon={Gamepad2} data={gameEvents} titleBg="bg-cyan-400" />
+            <Section title="J-POP 내한 일정 🎤" icon={Mic2} data={jpopEvents} titleBg="bg-lime-400" />
+          </>
         )}
-        <Section title="서브컬쳐 행사 🎨" icon={Flame} data={subcultureEvents} titleBg="bg-pink-400" />
-        <Section title="오프라인 게임 행사 🎮" icon={Gamepad2} data={gameEvents} titleBg="bg-cyan-400" />
-        <Section title="J-POP 내한 일정 🎤" icon={Mic2} data={jpopEvents} titleBg="bg-lime-400" />
       </main>
     </>
   );
